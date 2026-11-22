@@ -1,1 +1,4 @@
-config/db.php
+# Fichiers de configuration locaux (ne jamais commiter)
+config/pdo.php
+.env
+*.log
