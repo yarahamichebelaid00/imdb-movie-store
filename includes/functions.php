@@ -2,10 +2,9 @@
 //protege un texte avant l'afficher
 function formatPrice($price)
 {
-    return number_format($price,2,',','').'€ '
+    return number_format($price,2,',','').'€'
 }
-
-//affiche le boutin "ajouter au panier"
+//affiche le bouton "ajouter au panier"
 function showCartButton($movieId)
 {
     echo '<form method="post" action="cart.php">';
@@ -31,8 +30,4 @@ htmlspecialchars($movie ['title']) .'</a></h3>';
       showCartButton($movie['id']) ;
       echo '</div>';
       echo '</article>';
-    
 }
-
-
-?>
