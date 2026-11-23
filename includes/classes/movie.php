@@ -4,7 +4,7 @@ require_once __DIR__ . '/../includes/db.php';
 class Movie {
     private $pdo;
 
-    public_function__construct()
+    public function__construct()
 {
     $this->pdo = getDbConnection();
 }
@@ -17,7 +17,7 @@ public function getLatest (){
 }
 
 public function getById($id){
-    $stmt=$this->pdo->prepare(SELECT * FROM movies WHERE id=:id");
+    $stmt=$this->pdo->prepare("SELECT * FROM movies WHERE id=:id");
     $stmt->bindParm(':id',$id);
     $stmt->execute();
 
@@ -25,8 +25,8 @@ public function getById($id){
 }
 
 public function getByCategory($categoryId){
-    $stmt=$this->pdo->prepare(SELECT * FROM movies WHERE category id=:category_id ORDER BY title ASC");
-    $stmt->bindParm(':catgory_id',$categoryId);
+    $stmt=$this->pdo->prepare("SELECT * FROM movies WHERE category_id=:category_id ORDER BY title ASC");
+    $stmt->bindParm(':category_id',$categoryId);
     $stmt->execute();
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -34,9 +34,9 @@ public function getByCategory($categoryId){
 
 //la table relie les films et les réalisateurs 
 public function getByDirector($directorId){
-    $stmt=$this->pdo->prepare(SELECT * FROM movies JOIN movies_directors ON movies.id= movies_directors.movie_id WHERE movies_directors.director_id=:director_id ORDER BY movies.release_date DESC");
+    $stmt=$this->pdo->prepare("SELECT movies.*FROM movies JOIN movies_directors ON movies.id= movies_directors.movie_id WHERE movies_directors.director_id=:director_id ORDER BY movies.release_date DESC");
 
-    $stmt->bindParm(':director-id',$directorId);
+    $stmt->bindParm(':directo_id',$directorId);
     $stmt->execute();
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -52,7 +52,7 @@ public function getDirectors($movieId){
 }
 
 public function getActors($movieId){
- $stmt=$this->pdo->prepare("SELECT actors.*FROM actors JOIN movies_actors ON actors.id= movies_actor_id WHERE movies_actors.movie_id=:movie_id");
+ $stmt=$this->pdo->prepare("SELECT actors.*FROM actors JOIN movies_actors ON actors.id= movies_actors_id WHERE movies_actors.movie_id=:movie_id");
  $stmt->bindParm(':movie_id',$movieId);
  $stmt->execute();
 
