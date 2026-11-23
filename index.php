@@ -27,7 +27,7 @@ $movies=$movie-> getLatest();
     foreach($movies as $row){
     showMovieCard($row);
 }
-
+echo '</div>';
 ?>
 </main>
 <?php include 'includes/footer.php';?>

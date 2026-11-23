@@ -4,7 +4,7 @@ require_once __DIR__ . '/../includes/db.php';
 class Movie {
     private $pdo;
 
-    public function__construct()
+    public function __construct()
 {
     $this->pdo = getDbConnection();
 }
@@ -18,7 +18,7 @@ public function getLatest (){
 
 public function getById($id){
     $stmt=$this->pdo->prepare("SELECT * FROM movies WHERE id=:id");
-    $stmt->bindParm(':id',$id);
+    $stmt->bindParam(':id',$id);
     $stmt->execute();
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -26,7 +26,7 @@ public function getById($id){
 
 public function getByCategory($categoryId){
     $stmt=$this->pdo->prepare("SELECT * FROM movies WHERE category_id=:category_id ORDER BY title ASC");
-    $stmt->bindParm(':category_id',$categoryId);
+    $stmt->bindParam(':category_id',$categoryId);
     $stmt->execute();
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -36,7 +36,7 @@ public function getByCategory($categoryId){
 public function getByDirector($directorId){
     $stmt=$this->pdo->prepare("SELECT movies.*FROM movies JOIN movies_directors ON movies.id= movies_directors.movie_id WHERE movies_directors.director_id=:director_id ORDER BY movies.release_date DESC");
 
-    $stmt->bindParm(':directo_id',$directorId);
+    $stmt->bindParm(':director_id',$directorId);
     $stmt->execute();
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -45,7 +45,7 @@ public function getByDirector($directorId){
 //un film peut avoir plusiers réalisateurs (comme le  film:Intouchables)
 public function getDirectors($movieId){
    $stmt=$this->pdo->prepare("SELECT directors.* FROM directors JOIN movies_directors ON movies.id= movies_directors.movie_id WHERE movies_directors.director_id=:director_id ORDER BY movies.release_date DESC");
-   $stmt->bindParm(':director_id',$directorId);
+   $stmt->bindParam(':director_id',$directorId);
    $stmt->execute();
 
    return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -63,8 +63,8 @@ public function getActors($movieId){
 public function search($text){
  $search='%' . $text . '%';
  $stmt=$this->pdo->prepare("SELECT DISTINCT movies.*FROM movies LEFT JOIN movies_directors ON movies.id=movies_directors.movie_id LEFT JOIN directors ON directors.id=movies_directors.director_id WHERE movies.title LIKE :title OR CONCAT(directors.first_name,' ',directors.last_name)LIKE:director ORDER BY movies.title ASC");
- $stmt->bindParm(':title', $search);
- $stmt->bindParm(':director',$search);
+ $stmt->bindParam(':title', $search);
+ $stmt->bindParam(':director',$search);
  $stmt->execute();
 
  return $stmt->fetchAll(PDO::FETCH_ASSOC);
