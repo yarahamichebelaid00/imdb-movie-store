@@ -5,7 +5,7 @@
     <?php if (isset($_SESSION['user'])): ?>
         <a href="cart.php">Panier</a>
         <a href="profile.php">Profil</a>
-        <a href="logout.php">Déconexion</a>
+        <a href="logout.php">Déconnexion</a>
     <?php else:?>
         <a href="login.php">Connexion</a>
         <a href="register.php">Inscription</a>
