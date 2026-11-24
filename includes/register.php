@@ -1,18 +1,28 @@
 <?php
+// Fichier fonction = formulaire de création de compte
+
 // Import connexion à BDD
 require_once '../config/pdo.php';
 // Import fonctions sécurité et utilitaires
 require_once 'csrf.php';
 require_once 'helpers.php';
 
-// Constantes
+// Démarrage session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Variables pour afficher message d'erreur ou succès d'une opération
+// Récupèration message succès puis message effacé
+$success = $_SESSION['register_success'] ?? "";
+unset($_SESSION['register_success']); 
+
 $error = "";
-$success = "";
 
 // Si formulaire bien envoyé
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    // Vérification token CSRF : appel fonction dans csrf.php
+    // Vérification token CSRF => appel fonction dans csrf.php
     if (!isset($_POST['csrf_token']) || !verifyCsrfToken($_POST['csrf_token'])) { 
     // Au cas où token a expiré ou si double envoi du formulaire :
         $error = "Erreur de sécurité. Veuillez recharger la page.";
@@ -62,9 +72,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         'email' => $email,
                         'password' => $hashedPassword
                     ]);
-                    $success = "Inscription réussie ! Vous pouvez vous connecter.";
+
+                    // Stockage message en session
+                    $_SESSION['register_success'] = "Inscription réussie ! Vous pouvez vous connecter.";
+                    header("Location: ../login.php");
+                    exit; // Stop exécution du script après redirection
                 }
             }
         }
     }
 }
+?>
+<!-- --- Partie HTML : Affichage du formulaire Créer un compte --- -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Créer un compte</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <?php include 'includes/header.php'; ?>
+    <h1>Créer un compte</h1>
+    
+    <!-- Affichage messages d'erreurs ou de succès -->
+    <?php if ($error): ?> <!-- test OK -->
+        <p style="color: red;"><?php echo $error; ?></p>
+    <?php endif; ?>
+
+    <?php if ($success): ?>
+        <p style="color: green;"><?php echo $success; ?></p>
+    <?php endif; ?>
+
+    <form method="POST" action="">
+    
+    <!-- Inclusion token CSRF dans session => appel fonction dans csrf.php -->
+    <?php displayCsrfToken(); ?>
+    
+    <label for="username">Nom d'utilisateur.rice :</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="email">Email :</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="password">Mot de passe :</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <label for="password_confirm">Confirmer le mot de passe :</label><br>
+        <input type="password" id="password_confirm" name="password_confirm" required><br><br>
+
+        <button type="submit">S'inscrire</button>
+    </form>
+    
+    <p>Vous avez déjà un compte ? <a href="../login.php">Se connecter</a></p>
+    <p>Déconnexion temporaire <a href="../logout.php">Se déconnecter</a></p>
+    <?php include 'includes/footer.php';?>
+</body>
+</html>
