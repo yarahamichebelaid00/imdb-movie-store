@@ -36,7 +36,7 @@ public function getByCategory($categoryId){
 public function getByDirector($directorId){
     $stmt=$this->pdo->prepare("SELECT movies.*FROM movies JOIN movies_directors ON movies.id= movies_directors.movie_id WHERE movies_directors.director_id=:director_id ORDER BY movies.release_date DESC");
 
-    $stmt->bindParm(':director_id',$directorId);
+    $stmt->bindParam(':director_id',$directorId);
     $stmt->execute();
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -44,16 +44,16 @@ public function getByDirector($directorId){
 
 //un film peut avoir plusiers réalisateurs (comme le  film:Intouchables)
 public function getDirectors($movieId){
-   $stmt=$this->pdo->prepare("SELECT directors.* FROM directors JOIN movies_directors ON movies.id= movies_directors.movie_id WHERE movies_directors.director_id=:director_id ORDER BY movies.release_date DESC");
-   $stmt->bindParam(':director_id',$directorId);
+   $stmt=$this->pdo->prepare("SELECT directors.* FROM directors JOIN movies_directors ON directors.id= movies_directors.movie_id WHERE movies_directors.movie_id=:movie_id ");
+   $stmt->bindParam(':movie_id',$movieId);
    $stmt->execute();
 
    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 public function getActors($movieId){
- $stmt=$this->pdo->prepare("SELECT actors.*FROM actors JOIN movies_actors ON actors.id= movies_actors_id WHERE movies_actors.movie_id=:movie_id");
- $stmt->bindParm(':movie_id',$movieId);
+ $stmt=$this->pdo->prepare("SELECT actors.*FROM actors JOIN movies_actors ON actors.id= movies_actors.actor_id WHERE movies_actors.movie_id=:movie_id");
+ $stmt->bindParam(':movie_id',$movieId);
  $stmt->execute();
 
  return $stmt->fetchAll(PDO::FETCH_ASSOC);

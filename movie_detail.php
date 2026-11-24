@@ -23,7 +23,7 @@ include 'includes/header.php';
         $actors = $movie->getActors($movieDetails['id']);
 
         echo '<article class= "movie-detail">';
-        echo '<img scr="img/movies/' . htmlspecialchars($movieDetails['image_url']) . '" alt="'. htmlspecialchars($movieDetails['title']) . '">';
+        echo '<img src="img/movies/' . htmlspecialchars($movieDetails['image_url']) . '" alt="'. htmlspecialchars($movieDetails['title']) . '">';
         echo '<div>';
         echo '<h1>' . htmlspecialchars($movieDetails['title']) . '</h1>';
 
