@@ -14,7 +14,7 @@
 
 <!-- la recherche envoie le texte à search.php -->
 <form class="search-form" method="get" action="search.php">
-  <input type="text" name="q" placeholder="titre" required>
+  <input type="text" name="search" placeholder="titre" required>
        <input type="submit" class="btn"  value="recherhcer">
            </form>
         </div>
