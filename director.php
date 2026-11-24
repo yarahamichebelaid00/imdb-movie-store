@@ -23,12 +23,14 @@ include 'includes/header.php';
         $movie =new Movie();
         $movies =$movie->getByDirector($directorDetails['id']);
 
-        echo '<h1> . htmlspecialchars($directorDetails['first_name'] . ' ' . $directorDetails['last_name']) . </h1>';
-        echo '<h2> Ses films (' . count($movies) . ')</h2>';
+        echo '<h1>' . htmlspecialchars($directorDetails['first_name'] . ' ' . $directorDetails['last_name']) . '</h1>';
+        echo '<h2>  Ses films (' . count($movies) . ')</h2>';
+
+
         echo '<div class="grid">'; 
 
         foreach ($movies as $row){
-            showMovieCard($row)
+            showMovieCard($row);
         }
 
         echo'</div>';
