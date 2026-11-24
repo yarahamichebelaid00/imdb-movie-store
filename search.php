@@ -24,7 +24,7 @@ if ($text === ''){
     $movies =$movie->search($text);
 
     if(empty($movies)){
-        echo '<p class="message">Acun film trouvé pour " ' . htmlspecialchars($text) .  ' "</p>';
+        echo '<p class="message">Aucun film trouvé pour " ' . htmlspecialchars($text) .  ' "</p>';
     } else {
         echo '<p>' . count($movies) . ' resultat(s) pour " ' .  htmlspecialchars($text) . ' "</p>';
         echo '<div class="grid">';
