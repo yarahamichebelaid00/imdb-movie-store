@@ -1,5 +1,7 @@
 <?php
-//protege un texte avant l'afficher
+require_once __DIR__ . '/csrf.php';
+
+//affiche unprix au format français : par example 9.99 devient 9.99 €
 function formatPrice($price) 
 {
     return number_format($price,2,',',' ') . ' €';
@@ -10,6 +12,7 @@ function showCartButton($movieId)
     echo '<form method="post" action="cart.php">';
     echo '<input type ="hidden" name ="action" value="add">';
     echo '<input type ="hidden" name="movie_id" value="' .(int) $movieId .'">';
+    echo '<input type="hidden" name="csrf_token" value="' . htmlspecialchars($_SESSION['csrf_token']?? ''). '">';
     echo '<button type="submit" class="btn">Ajouter au panier</button>';
     echo' </form>';
 }
