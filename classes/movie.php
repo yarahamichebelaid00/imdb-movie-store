@@ -62,7 +62,7 @@ public function getActors($movieId){
 //DISTINCT evite d'avoir deux fois le même film
 public function search($text){
  $search='%' . $text . '%';
- $stmt=$this->pdo->prepare("SELECT DISTINCT movies.*FROM movies LEFT JOIN movies_directors ON movies.id=movies_directors.movie_id LEFT JOIN directors ON directors.id=movies_directors.director_id WHERE movies.title LIKE :title OR CONCAT(directors.first_name,' ',directors.last_name)LIKE:director ORDER BY movies.title ASC");
+ $stmt=$this->pdo->prepare("SELECT DISTINCT movies.* FROM movies LEFT JOIN movies_directors ON movies.id=movies_directors.movie_id LEFT JOIN directors ON directors.id=movies_directors.director_id WHERE movies.title LIKE :title OR CONCAT(directors.first_name,' ',directors.last_name) LIKE :director ORDER BY movies.title ASC");
  $stmt->bindParam(':title', $search);
  $stmt->bindParam(':director',$search);
  $stmt->execute();
