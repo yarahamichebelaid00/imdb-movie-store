@@ -3,17 +3,6 @@ include_once 'includes/db.php';
 include_once 'includes/auth.php';
 include_once 'includes/functions.php';
 
-// --- DEBUG ---
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    error_log("POST action: " . ($_POST['action'] ?? 'NOT SET'));
-    error_log("POST movie_id type: " . gettype($_POST['movie_id'] ?? 'NOT SET'));
-    error_log("POST movie_id value: ");
-    var_dump($_POST['movie_id'] ?? null);
-    error_log("SESSION user type: " . gettype($_SESSION['user'] ?? 'NOT SET'));
-    error_log("SESSION user value: ");
-    var_dump($_SESSION['user'] ?? null);
-}
-// --- FIN DEBUG ---
 
 requireLogin();
 
