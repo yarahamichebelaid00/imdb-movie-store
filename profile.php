@@ -10,8 +10,8 @@ include 'includes/header.php';
     <h1>Mon Profil</h1>
     <?php
 // si personne n'est connecté ,on demande de se connecter
-if (!isset($_SESSION[])){
-    echo '<p class="message"Vous devez être connecté(e) pour voir votre profil.<a href="login.php">Se connecter</a></p>';
+if (!isset($_SESSION['user'])){
+    echo '<p class="message">Vous devez être connecté(e) pour voir votre profil.<a href="login.php">Se connecter</a></p>';
 
 } else{
     $userId = $_SESSION['user']['id'];
@@ -21,9 +21,9 @@ if (!isset($_SESSION[])){
 // changement du mot de passe quand le formulaire est envoyé
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $oldPassword = $POST['old_password'] ?? '';
-    $newPassword = $POST['new_password'] ?? '';
-    $confirmPassword = $POST['confirm_password'] ?? '';
+    $oldPassword = $_POST['old_password'] ?? '';
+    $newPassword = $_POST['new_password'] ?? '';
+    $confirmPassword = $_POST['confirm_password'] ?? '';
 
     $user = new User();
     $userDetails = $user->getById($userId);
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error ='Erreur de sécurité.Veuillez recharger la page.';
     }elseif (!password_verify($oldPassword, $userDetails['password'])) {
         $error = 'L\'ancien mot de passe est incorrect';
-    }elseif ($newPassword ! == $confirmPassword){
+    }elseif ($newPassword !== $confirmPassword){
         $error = 'Les nouveaux mots de passe ne correspondent pas.';
     } else{
         $user->updatePassword($userId, password_hash($newPassword,PASSWORD_DEFAULT));
@@ -59,8 +59,11 @@ if (empty($movies)){
 
 // formulaire pour changer le mot passe
 echo '<h2>Changer mon mot de passe </h2>';
-if ($error! == ''){
-    echo '<p class="messsage">' . htmlspecialchars($success) . '</p>';
+if ($error !== ''){
+    echo '<p class="messsage">' . htmlspecialchars($error) . '</p>';
+}
+if ($success !== ''){
+    echo '<p class="message">' . htmlspecialchars($success) . '</p>';
 }
 
 echo '<form method="post" action ="profile.php">';
