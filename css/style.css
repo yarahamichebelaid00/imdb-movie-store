@@ -221,7 +221,7 @@ border: 1px solid #262e31;
      padding: 20px 0;
 }
 
-/* formulaires pages de Mélanie*/
+/* formulaires pages */
 main form label{
     color: #b0b9c2;
     margin-bottom: 5px;
@@ -231,7 +231,7 @@ main form label{
 
 main form input[type="text"],
 main form input[type="email"],
-main form input[type="passwor"],
+main form input[type="password"],
 main form textarea{
     color: #e6e1de;
     background-color: #011c27;
@@ -243,7 +243,8 @@ main form textarea{
     border: 1px solid #7f7c77;
 }
 
-main form input[type="submit"]{
+main form input[type="submit"],
+main form button {
     color: #030d16;
     background-color: #4f8ba7;
     border: none;
@@ -253,7 +254,8 @@ main form input[type="submit"]{
     cursor: pointer;
 }
 
-main form input[type="submit"]:hover{
+main form input[type="submit"]:hover,
+main form button:hover{
     background-color: #93b0c0;
 }
 
@@ -279,7 +281,7 @@ main form input[type="submit"]:hover{
     .search-form{
         width: 100%;
     }
-    .search-form input[type"text"]{
+    .search-form input[type="text"]{
         flex: 1;
     }
     h1{
