@@ -29,7 +29,7 @@ include 'includes/header.php';
         echo '<h1>' . htmlspecialchars($movieDetails['title']) . '</h1>';
 
     // substr() garde les premieres caractères de la date par example 10-12-1999 devient 1998
-       echo'<p>' . substr($movieDetails['release_date'],0,4) . ' . realise par ';
+       echo'<p>' . substr($movieDetails['release_date'],0,4) . ' réalisé par ';
 
        //un lien par réalisateur, séparés par <et> par example le film intouchables en a deux 
 

@@ -3,6 +3,18 @@ include_once 'includes/db.php';
 include_once 'includes/auth.php';
 include_once 'includes/functions.php';
 
+// --- DEBUG ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    error_log("POST action: " . ($_POST['action'] ?? 'NOT SET'));
+    error_log("POST movie_id type: " . gettype($_POST['movie_id'] ?? 'NOT SET'));
+    error_log("POST movie_id value: ");
+    var_dump($_POST['movie_id'] ?? null);
+    error_log("SESSION user type: " . gettype($_SESSION['user'] ?? 'NOT SET'));
+    error_log("SESSION user value: ");
+    var_dump($_SESSION['user'] ?? null);
+}
+// --- FIN DEBUG ---
+
 requireLogin();
 
 $user_id = $_SESSION['user'];
@@ -73,14 +85,15 @@ $stmt = $pdo->prepare("
         m.id AS movie_id,
         m.title,
         m.price,
-        m.image,
-        GROUP_CONCAT(d.name ORDER BY d.name SEPARATOR ', ') AS director_names
+        m.image_url,
+        GROUP_CONCAT(CONCAT(d.first_name, ' ', d.last_name) 
+        ORDER BY d.last_name SEPARATOR ', ') AS director_names
     FROM cart c
     JOIN movies m ON c.movie_id = m.id
     LEFT JOIN movies_directors md ON md.movie_id = m.id
     LEFT JOIN directors d ON d.id = md.director_id
     WHERE c.user_id = :uid
-    GROUP BY c.id, m.id, m.title, m.price, m.image
+    GROUP BY c.id, m.id, m.title, m.price, m.image_url
     ORDER BY c.id DESC
 ");
 $stmt->execute([':uid' => $user_id]);
@@ -105,7 +118,7 @@ $total = round($total, 2);
         <div class="alert alert-success">
             <?php echo htmlspecialchars($_SESSION['cart_message']); ?>
         </div>
-        <?php unset($_SESSION['cart_message']); ?> // Efface message après affichage
+        <?php unset($_SESSION['cart_message']); ?>
     <?php endif; ?>
 
     <!-- Cas où le panier est vide -->
@@ -129,11 +142,11 @@ $total = round($total, 2);
             <?php foreach ($cart_items as $item): ?>
                 <tr>
                     <td>
-                        <img src="uploads/<?php echo htmlspecialchars($item['image']); ?>"
+                        <img src="img/movies/<?php echo htmlspecialchars($item['image_url']); ?>"
                         alt="<?php echo htmlspecialchars($item['title']); ?>" width="50">
                     </td>
                     <td>
-                        <a href="movie.php?id=<?php echo $item['movie_id']; ?>">
+                        <a href="movie_detail.php?id=<?php echo $item['movie_id']; ?>">
                         <?php echo htmlspecialchars($item['title']); ?> </a>
                     </td>
                     <td>
