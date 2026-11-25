@@ -15,7 +15,7 @@ if (!isset($_SESSION['user'])){
     echo '<p class="message">Vous devez être connecté(e) pour voir votre profil.<a href="login.php">Se connecter</a></p>';
 
 } else{
-    $userId = $_SESSION['user']['id'];
+    $userId = $_SESSION['user'];
     $error = '';
     $success='';
 
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $success = 'Votre mot passe a été modifié';
     }
 }
-echo '<p>Bonjour ' . htmlentities($_SESSION['user']['username']) . ' !</p>';
+echo '<p>Bienvenue dans votre espace personnel !</p>';
 
 
 //liste des films achetés
