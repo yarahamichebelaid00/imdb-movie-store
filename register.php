@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 } ?>
-// Partie HTML : Affichage du formulaire Créer un compte
+<!-- Partie HTML : Affichage du formulaire Créer un compte  -->
 <?php include 'includes/header.php'; ?>
     <h1>Créer un compte</h1>
     

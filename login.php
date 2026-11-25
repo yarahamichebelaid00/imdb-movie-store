@@ -11,6 +11,11 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+if (isset($_SESSION['error'])) { 
+   $error = $_SESSION['error']; 
+   unset($_SESSION['error']); 
+}
+
 $pdo = getDbConnection();
 $error = '';
 $success = '';
@@ -44,11 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($user && password_verify($password, $user['password'])) {
                 // Alors connexion réussie
                 // Stockage infos du user dans la session
-                $_SESSION['user'] = [
-                    'id'    => $user['id'],
-                    'email' => $user['email'],
-                    'username'  => $user['username']
-                ];
+                $_SESSION['user'] = $user['id'];
 
                 $success = "Connexion réussie ! Bienvenue " . htmlspecialchars($user['username'])." !"; 
 
@@ -59,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 } ?>
-// Partie HTML : Affichage du formulaire Se connecter
+<!--- Partie HTML : Affichage du formulaire Se connecter  -->
 <?php include 'includes/header.php'; ?>
     <h1>Se connecter</h1>
     
