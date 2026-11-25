@@ -72,11 +72,11 @@ public function search($text){
 
 // films achetés par un utilisateur
 public function getPurchasedByUser($userId){
-$stmt=$this->pdo->prepare("SELECT DISTINCT movies.* FROM movies JOIN order_items.movie_id= order_items.order_id WHERE orders.user_id = :user_id ORDER BY movies.title ASC");
+$stmt=$this->pdo->prepare("SELECT DISTINCT movies.* FROM movies JOIN order_items ON movies.id= order_items.movie_id JOIN orders ON orders.id= order_items.order_id WHERE orders.user_id = :user_id ORDER BY movies.title ASC");
 $stmt->bindParam(':user_id' , $userId);
 $stmt->execute();
 
-return $stmt->fetchAll(PDO:FETCH_ASSOC);
+return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
