@@ -35,7 +35,8 @@ if (empty($items)){
 
 //on cree la commnde
     $stmt =$pdo-> prepare ("INSERT INTO orders (user_id, order_date,total_amount)VALUES (:user_id,NOW(),:total)");
-    $stmt->bindParam(':user_id,$userId');
+    $stmt->bindParam(':user_id',$userId);
+    $stmt-> bindParam(':total',$total);
     $stmt->execute();
     $orderId =$pdo->lastInsertId();
 
@@ -52,7 +53,6 @@ foreach ($items as $item) {
 //vider lepanier
 $stmt =$pdo->prepare("DELETE FROM cart WHERE user_id =:user_id");
 $stmt->bindParam (':user_id' ,$userId);
-$stmt->bindParam(':total',$total);
 $stmt->execute();
 
 $message ='Merci! Votre achat est validé.Vos films sont dans votre profil.';
