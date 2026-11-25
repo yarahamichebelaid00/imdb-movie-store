@@ -3,6 +3,7 @@ session_start();
 require_once 'classes/category.php';
 require_once 'classes/movie.php';
 require_once 'includes/functions.php';
+$title ='Catégorie -IMBd Store';
 include 'includes/header.php';
 
 ?>

@@ -2,6 +2,7 @@
 session_start();
 require_once 'classes/movie.php';
 require_once 'includes/functions.php';
+$title ='Détail du film- IMBd';
 include 'includes/header.php';
 
 ?>
@@ -23,7 +24,7 @@ include 'includes/header.php';
         $actors = $movie->getActors($movieDetails['id']);
 
         echo '<article class= "movie-detail">';
-        echo '<img src="img/movies/' . htmlspecialchars($movieDetails['image_url']) . '" alt="'. htmlspecialchars($movieDetails['title']) . '">';
+        echo '<img src="img/movies/'  . htmlspecialchars($movieDetails['image_url']) . '" alt="'. htmlspecialchars($movieDetails['title']) . '">';
         echo '<div>';
         echo '<h1>' . htmlspecialchars($movieDetails['title']) . '</h1>';
 

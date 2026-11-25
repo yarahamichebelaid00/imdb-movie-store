@@ -3,6 +3,7 @@ session_start();
 require_once 'classes/director.php';
 require_once 'classes/movie.php';
 require_once 'includes/functions.php';
+$title='Réalisateur -IMBb Store';
 include 'includes/header.php';
 ?>
 

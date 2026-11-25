@@ -2,6 +2,7 @@
 session_start();
 require_once 'classes/movie.php';
 require_once 'includes/functions.php';
+$title='Recherche -IMBb Store';
 include 'includes/header.php';
 
 ?>
