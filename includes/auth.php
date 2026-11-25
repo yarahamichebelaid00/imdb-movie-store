@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 // Fonction vérification si user connecté.e
 function isLoggedIn() {
     // Vérification si ID du user est bien stocké dans la session ouverte
-    return isset($_SESSION['user_id']);
+    return isset($_SESSION['user']);
 }
 
 // Fonction pour protèger les pages sensibles type Panier, Profil ou Commande

@@ -2,15 +2,16 @@
 // Fichier fonction = formulaire de connexion à son compte + vérification ID
 
 // Import fonctions connexion, sécurité et utilitaires
-require_once 'config/pdo.php';    // Connexion à BDD (via fonction $pdo)
+require_once 'includes/db.php';    // Connexion à BDD (via fonction $pdo)
 require_once 'includes/csrf.php';
-require_once 'includes/helpers.php';
+require_once 'includes/functions.php';
 
 // Démarrage session (obligatoire pour utiliser $_SESSION)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+$pdo = getDbConnection();
 $error = '';
 $success = '';
 
@@ -57,18 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-}
-?>
-<!-- --- Partie HTML : Affichage du formulaire Se connecter --- -->
- <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Se connecter</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <?php include 'includes/header.php'; ?>
+} ?>
+// Partie HTML : Affichage du formulaire Se connecter
+<?php include 'includes/header.php'; ?>
     <h1>Se connecter</h1>
     
     <!-- Si attaque, script transformé en caractères HTML = non exécutable -->
@@ -96,8 +88,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit">Se connecter</button>
     </form>
 
-    <p>Pas encore inscrit.e ? <a href="includes/register.php">Créer un compte</a></p>
+    <p>Pas encore inscrit.e ? <a href="register.php">Créer un compte</a></p>
     <p>Déconnexion temporaire <a href="logout.php">Se déconnecter</a></p>
-    <?php include 'includes/footer.php';?>
-</body>
-</html>
+<?php include 'includes/footer.php';?>
