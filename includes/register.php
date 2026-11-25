@@ -12,14 +12,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Variables pour afficher message d'erreur ou succès d'une opération
-// Récupèration message succès puis message effacé
-$success = $_SESSION['register_success'] ?? "";
-unset($_SESSION['register_success']); 
-
 $error = "";
+$success = '';
 
-// Si formulaire bien envoyé
+// Si formulaire de création de compte bien envoyé
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Vérification token CSRF => appel fonction dans csrf.php
@@ -34,8 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $_POST['password']; // pas de nettoyage pour mot de passe
         $passwordConfirm = $_POST['password_confirm']; // idem
 
+        // Vérification que champs = pas vides
+        if (empty($email) || empty($username) || empty($password) || empty($passwordConfirm)) {
+            $error = 'Veuillez remplir tous les champs.';
+        }
+
         // Vérification email => appel fonction dans helpers.php
-        if (!isValidEmail($email)) {
+        elseif (!isValidEmail($email)) {
             $error = "L'email n'est pas valide.";
         }
 
@@ -73,10 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         'password' => $hashedPassword
                     ]);
 
-                    // Stockage message en session
-                    $_SESSION['register_success'] = "Inscription réussie ! Vous pouvez vous connecter.";
-                    header("Location: ../login.php");
-                    exit; // Stop exécution du script après redirection
+                    $success = "Inscription réussie ! Vous pouvez maintenant vous connecter.";
+                    // Vider les champs du formulaire
+                    $email = '';
+                    $username = '';
+                    $password = '';
+                    $passwordConfirm = '';
                 }
             }
         }
@@ -96,12 +99,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h1>Créer un compte</h1>
     
     <!-- Affichage messages d'erreurs ou de succès -->
-    <?php if ($error): ?> <!-- test OK -->
-        <p style="color: red;"><?php echo $error; ?></p>
+    <?php if ($error): ?> <!-- tests OK -->
+        <p style="color: red; font-weight: bold;"><?php echo htmlspecialchars($error); ?></p>
     <?php endif; ?>
 
     <?php if ($success): ?>
-        <p style="color: green;"><?php echo $success; ?></p>
+        <p style="color: green; font-weight: bold;"><?php echo htmlspecialchars($success); ?></p>
+        <p><a href="../login.php">Aller à la page de connexion</a></p>
     <?php endif; ?>
 
     <form method="POST" action="">
@@ -124,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit">S'inscrire</button>
     </form>
     
-    <p>Vous avez déjà un compte ? <a href="../login.php">Se connecter</a></p>
+    <p>Déjà inscrit.e ? <a href="../login.php">Se connecter</a></p>
     <p>Déconnexion temporaire <a href="../logout.php">Se déconnecter</a></p>
     <?php include 'includes/footer.php';?>
 </body>
