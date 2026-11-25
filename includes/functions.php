@@ -12,7 +12,7 @@ function showCartButton($movieId)
     echo '<form method="post" action="cart.php">';
     echo '<input type ="hidden" name ="action" value="add">';
     echo '<input type ="hidden" name="movie_id" value="' .(int) $movieId .'">';
-    echo '<input type="hidden" name="csrf_token" value="' . htmlspecialchars($_SESSION['csrf_token']?? ''). '">';
+    displayCsrfToken();
     echo '<button type="submit" class="btn">Ajouter au panier</button>';
     echo' </form>';
 }
