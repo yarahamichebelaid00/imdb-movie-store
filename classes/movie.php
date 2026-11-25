@@ -44,7 +44,7 @@ public function getByDirector($directorId){
 
 //un film peut avoir plusiers réalisateurs (comme le  film:Intouchables)
 public function getDirectors($movieId){
-   $stmt=$this->pdo->prepare("SELECT directors.* FROM directors JOIN movies_directors ON directors.id= movies_directors.movie_id WHERE movies_directors.movie_id=:movie_id ");
+   $stmt=$this->pdo->prepare("SELECT directors.* FROM directors JOIN movies_directors ON directors.id = movies_directors.director_id WHERE movies_directors.movie_id=:movie_id ");
    $stmt->bindParam(':movie_id',$movieId);
    $stmt->execute();
 
@@ -70,4 +70,15 @@ public function search($text){
  return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// films achetés par un utilisateur
+public function getPurchasedByUser($userId){
+$stmt=$this->pdo->prepare("SELECT DISTINCT movies.* FROM movies JOIN order_items.movie_id= order_items.order_id WHERE orders.user_id = :user_id ORDER BY movies.title ASC");
+$stmt->bindParam(':user_id' , $userId);
+$stmt->execute();
+
+return $stmt->fetchAll(PDO:FETCH_ASSOC);
+
+
+
+}
 }
